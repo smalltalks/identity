@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package identitypb;
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+// option go_package = "github.com/smalltalks/identity/server/pb";
+
+service Identity {
+  rpc HealthCheck(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      get: "/health_check"
+    };
+  }
+
+  rpc HelloHTTP(HelloRequest) returns (HelloResponse) {
+    option (google.api.http) = {
+      post: "/hello"
+      body: "*"
+    };
+  }
+
+  rpc HelloPureGRPC(HelloRequest) returns (HelloResponse) {
+  }
+}
+
+message HelloRequest {
+  string sender = 1;
+  string message = 2;
+}
+
+message HelloResponse {
+  string message = 1;
+}
